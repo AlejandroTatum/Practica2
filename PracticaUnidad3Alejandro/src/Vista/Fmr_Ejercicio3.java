@@ -15,10 +15,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author kathe
- */
 public class Fmr_Ejercicio3 extends javax.swing.JFrame {
     DefaultTableModel dtm = new DefaultTableModel();
     /**
@@ -26,7 +22,7 @@ public class Fmr_Ejercicio3 extends javax.swing.JFrame {
      */
     
     Ejercicio3 ejercicio3 = new Ejercicio3();
-    //private Float casas [][]= new Float [10][3];
+    //private Float casas [][]= new Float [10][4];
     private int filasCasa = 10;
     private int columnasCasa = 4;
     private float casas[][] = new float[filasCasa][columnasCasa];
@@ -43,54 +39,39 @@ public class Fmr_Ejercicio3 extends javax.swing.JFrame {
 
     public void agregar() {
         if ((procesarEntrada(txtcasaNum.getText())&& procesarEntrada(txtlongitud.getText()) && procesarEntrada(txtancho.getText()) && procesarEntrada(txtpisos.getText()))) {
-             dtm.addRow(new Object[]{
-            txtcasaNum.getText(), txtlongitud.getText(), txtancho.getText(), txtpisos.getText()});
+             dtm.addRow(new Object[]{ txtcasaNum.getText(), txtlongitud.getText(), txtancho.getText(), txtpisos.getText()});
         }
     }
     
     private int filaActual = 0; 
 
     public void guardarData() {
-    // Crear un arreglo con los campos de texto que necesitamos validar
-    String[] campos = {
-        txtcasaNum.getText(),
-        txtlongitud.getText(),
-        txtancho.getText(),
-        txtpisos.getText()
-    };
-
-    // Iterar sobre cada campo de texto y verificar que no estén vacíos
+    String[] campos = {txtcasaNum.getText(),txtlongitud.getText(),txtancho.getText(),txtpisos.getText()};
+    
     for (String campo : campos) {
         if (!procesarEntrada(campo)) {
             JOptionPane.showMessageDialog(null, "Todos los campos deben ser llenados.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Si algún campo es inválido, detenemos el proceso
+            return; 
         }
     }
-
-    // Si todos los campos son válidos, procesamos los valores
+        
     try {
         float casaNum = Float.parseFloat(txtcasaNum.getText());
         float longitud = Float.parseFloat(txtlongitud.getText());
         float ancho = Float.parseFloat(txtancho.getText());
         float pisos = Float.parseFloat(txtpisos.getText());
 
-        // Verificar si hay espacio en el arreglo para guardar la nueva casa
         if (filaActual < filasCasa) {
-            // Guardar los datos en el arreglo bidimensional
             casas[filaActual][0] = casaNum;
             casas[filaActual][1] = longitud;
             casas[filaActual][2] = ancho;
             casas[filaActual][3] = pisos;
-
-            // Comparar las filas para detectar coincidencias en las columnas 1 a 3
             String filasHomonimas = obtenerFilasHomonimas();
             if (filasHomonimas.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Las siguientes filas son homónimas: " + filasHomonimas, "Resultado", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontraron filas homónimas.", "Resultado", JOptionPane.INFORMATION_MESSAGE);
             }
-
-            // Incrementar la fila actual para el siguiente registro
             filaActual++;
         } else {
             JOptionPane.showMessageDialog(null, "El arreglo está lleno, no se pueden agregar más casas.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -100,15 +81,12 @@ public class Fmr_Ejercicio3 extends javax.swing.JFrame {
     }
 }
 
-// Método para comparar filas en las columnas 1, 2 y 3 y devolver las filas homónimas
 private String obtenerFilasHomonimas() {
     StringBuilder filasHomonimas = new StringBuilder();
 
     for (int i = 0; i < filaActual; i++) {
-        for (int j = i + 1; j < filaActual; j++) {
-            // Comparar las columnas 1 (longitud), 2 (ancho) y 3 (pisos) de las filas i y j
+        for (int j = 1; j < filaActual; j++) {
             if (casas[i][1] == casas[j][1] && casas[i][2] == casas[j][2] && casas[i][3] == casas[j][3]) {
-                // Agregar a la lista las filas homónimas encontradas
                 filasHomonimas.append("Fila ").append(i + 1).append(" y Fila ").append(j + 1).append("\n");
             }
         }
@@ -117,17 +95,16 @@ private String obtenerFilasHomonimas() {
     return filasHomonimas.toString();
 }
 
-// Método para comparar filas en las columnas 1, 2 y 3
+
 private boolean compararFilas() {
     for (int i = 0; i < filaActual; i++) {
         for (int j = i + 1; j < filaActual; j++) {
-            // Comparar las columnas 1 (longitud), 2 (ancho) y 3 (pisos) de las filas i y j
             if (casas[i][1] == casas[j][1] && casas[i][2] == casas[j][2] && casas[i][3] == casas[j][3]) {
-                return true;  // Si hay al menos dos filas con las mismas dimensiones, retorna true
+                return true;  
             }
         }
     }
-    return false;  // Si no se encuentran coincidencias, retorna false
+    return false; 
 }
     
     
